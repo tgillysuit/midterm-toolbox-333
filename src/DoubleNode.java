@@ -67,11 +67,12 @@ public class DoubleNode {
    * The head of the list corresponds to the first element in the input list.
    *
    * @param values a list of integers to convert into a doubly linked list
-   * @return the head node of the constructed doubly linked list, or null if the input list is empty
+   * @return the head node of the constructed doubly linked list
+   * @throws IllegalArgumentException if the input list is null or empty
    */
   public static DoubleNode fromList(List<Integer> values) {
     if (values == null || values.isEmpty()) {
-      return null;
+      throw new IllegalArgumentException("Input list cannot be null or empty.");
     }
 
     DoubleNode head = new DoubleNode(values.get(0));

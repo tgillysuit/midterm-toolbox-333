@@ -33,8 +33,9 @@ public class SingleNodeTest {
 
   @Test
   public void testFromListWithEmptyList() {
-    SingleNode head = SingleNode.fromList(Collections.emptyList());
-    assertNull(head);
+    assertThrows(IllegalArgumentException.class,
+    () -> SingleNode.fromList(Collections.emptyList()));
+
   }
 
   @Test
@@ -81,7 +82,7 @@ public class SingleNodeTest {
 
   @Test
   public void testFromListAndNullHandling() {
-    SingleNode head = SingleNode.fromList(null);
-    assertNull(head);
+    assertThrows(IllegalArgumentException.class,
+      () -> SingleNode.fromList(null)) ;
   }
 }

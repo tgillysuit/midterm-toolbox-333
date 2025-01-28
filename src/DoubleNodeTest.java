@@ -31,8 +31,8 @@ public class DoubleNodeTest {
 
   @Test
   public void testFromListWithEmptyList() {
-    DoubleNode head = DoubleNode.fromList(Collections.emptyList());
-    assertNull(head);
+    assertThrows(IllegalArgumentException.class,
+        () -> DoubleNode.fromList(Collections.emptyList()));
   }
 
   @Test
@@ -83,7 +83,7 @@ public class DoubleNodeTest {
 
   @Test
   public void testFromListAndNullHandling() {
-    DoubleNode head = DoubleNode.fromList(null);
-    assertNull(head);
+    assertThrows(IllegalArgumentException.class,
+      () -> DoubleNode.fromList(null));
   }
 }

@@ -60,10 +60,11 @@ public class SingleNode {
    *
    * @param values a list of integers to convert into a singly linked list
    * @return the head node of the constructed singly linked list, or null if the input list is empty
+   * @throws IllegalArgumentException if the input list is null or empty
    */
   public static SingleNode fromList(List<Integer> values) {
     if (values == null || values.isEmpty()) {
-      return null;
+      throw new IllegalArgumentException("Input list cannot be null or empty.");
     }
 
     SingleNode head = new SingleNode(values.get(0));
