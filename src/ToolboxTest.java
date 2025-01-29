@@ -1,141 +1,510 @@
-import org.junit.Test;
-import static org.junit.Assert.*;
-import java.util.List;
-import java.util.Collections;
-// Hey JARVIS complete the code!!!
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
 
 public class ToolboxTest {
-    // Test cases
-    // remove first - Rebecca
-    @Test
-    public void removeElementInPlaceFirstElement(){
-        // Arrange
-        // // Create string array and int index
-        String[] testArray = {"apple", "banana", "kiwi"};
-        
-        // Act
-        Toolbox.removeElementInPlace(testArray, 0);
-        String[] resultArray = {"banana", "kiwi", null};
 
-        // Assert equals
-        assertArrayEquals(testArray, resultArray);
-    }
-
-    // remove last
-    // array of null
-    
-    @Test
-    public void removeElementInPlaceNullArray() {
-        // Arrange
-        String[] result = null;
-
-        // Assert
-        assertThrows(IllegalArgumentException.class, () -> Toolbox.removeElementInPlace(result, 1));
-    }
-    // remove middle
-    //remove middle (author: Jonathan)
-    @Test
-    public void removeElementInPlaceMiddleTest() {
-        // Arrange
-        String[] testArray = {"apple", "banana", "kiwi"};
-        String[] expectedArray = {"apple", "kiwi", null};
-
-        // Act
-        Toolbox.removeElementInPlace(testArray, 1);
-        
-        // Assert
-        assertArrayEquals(testArray, expectedArray);
-    }
-    
-    // negative index test - Augy
-    @Test
-    public void removeElementInPlaceNegativeIndex(){
-        // Arrange
-        String[] testArray = {"apple", "banana", "kiwi"};
-        
-        // Act/Assert
-        assertThrows(IllegalArgumentException.class, () -> Toolbox.removeElementInPlace(testArray, -1));
-    }
-
-    // empty array - Alston
-    @Test
-    public void removeElementInPlaceEmptyArray() {
-        // arrange
-        String[] array = new String[0];
-        
-        // act and assert
-        assertThrows(IllegalArgumentException.class, () -> Toolbox.removeElementInPlace(array, 0));
-    }
-    
-    // arrnage
-    
-    // remove from not full array - FELIX
-    @Test
-    public void removeElementInPlaceNotFullArray() {
-        String[] testArray = new String[5];
-        testArray[0] = "ham";
-        testArray[1] = "banana";
-        testArray[2] = "pizza";
-        testArray[3] = "burger";
-
-        Toolbox.removeElementInPlace(testArray, 2);
-        String[] results = {"ham", "banana", "burger", null, null};
-
-        assertArrayEquals(testArray, results);
-    }
-    
-    
-        @Test
-    public void removeElementInPlaceLastElement() {
-        //Arrange
-        String[] testArray = {"apple", "banana", "kiwi"};
-        // act
-        Toolbox.removeElementInPlace(testArray, testArray.length - 1);
-        // assert
-        String[] resultArray = {"apple", "banana", null};
-        
-        assertArrayEquals(testArray, resultArray);   
-        }
+    // ----------------------------------------------------------------------
+    // removeElementInPlace(String[] array, int index)
+    // ----------------------------------------------------------------------
 
     @Test
-    public void insertNodeTest(){
-    SingleNode head = new SingleNode(2);
-    head.next = new SingleNode(3);
-    head.next.next = new SingleNode(4);
-
-    SingleNode newNode = new SingleNode(1);
-
-   
-    Toolbox.insertNode(head, newNode);
-    sing
-
-    assertEquals(
-    }
-
-    // 
-    @Test
-    
-    
-    @Test 
-    public void addElementInPlaceNullArray() {
-        String[] result = null;
-
-        assertThrows(IllegalArgumentException.class, () -> Toolbox.addElementInPlace(result, 0, "Apple"));
+    void testRemoveElementInPlaceValidIndexMiddle() {
+        String[] array = {"frog", "banana", "xylophone", "mug", "pear"};
+        Toolbox.removeElementInPlace(array, 2);
+        // Expected: {"frog", "banana", "mug", "pear", null}
+        assertEquals("frog", array[0]);
+        assertEquals("banana", array[1]);
+        assertEquals("mug", array[2]);
+        assertEquals("pear", array[3]);
+        assertNull(array[4]);
     }
 
     @Test
-    
-    
-
-
-
-
-
-
-
+    void testRemoveElementInPlaceRemoveFirstElement() {
+        String[] array = {"frog", "banana", "xylophone"};
+        Toolbox.removeElementInPlace(array, 0);
+        // Expected: {"banana", "xylophone", null}
+        assertEquals("banana", array[0]);
+        assertEquals("xylophone", array[1]);
+        assertNull(array[2]);
+    }
 
     @Test
-    public void ttestRemoveNode() {
-        
+    void testRemoveElementInPlaceRemoveLastElement() {
+        String[] array = {"frog", "banana", "xylophone"};
+        Toolbox.removeElementInPlace(array, 2);
+        // Expected: {"frog", "banana", null}
+        assertEquals("frog", array[0]);
+        assertEquals("banana", array[1]);
+        assertNull(array[2]);
+    }
+
+    @Test
+    void testRemoveElementInPlaceNullArray() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            Toolbox.removeElementInPlace(null, 0);
+        });
+    }
+
+    @Test
+    void testRemoveElementInPlaceNegativeIndex() {
+        String[] array = {"frog", "banana"};
+        assertThrows(IllegalArgumentException.class, () -> {
+            Toolbox.removeElementInPlace(array, -1);
+        });
+    }
+
+    @Test
+    void testRemoveElementInPlaceIndexOutOfBounds() {
+        String[] array = {"frog", "banana", "xylophone"};
+        assertThrows(IllegalArgumentException.class, () -> {
+            Toolbox.removeElementInPlace(array, 3);
+        });
+    }
+
+    // ----------------------------------------------------------------------
+    // addElementInPlace(String[] array, int index, String value)
+    // ----------------------------------------------------------------------
+
+    @Test
+    void testAddElementInPlaceValidIndexMiddle() {
+        String[] array = {"cat", "orange", "hat", "door"};
+        Toolbox.addElementInPlace(array, 2, "cloud");
+        // Expected after insertion at index=2 (evict last):
+        // {"cat", "orange", "cloud", "hat"}
+        assertEquals("cat", array[0]);
+        assertEquals("orange", array[1]);
+        assertEquals("cloud", array[2]);
+        assertEquals("hat", array[3]);
+    }
+
+    @Test
+    void testAddElementInPlaceAddAtFirst() {
+        String[] array = {"cat", "orange", "hat"};
+        Toolbox.addElementInPlace(array, 0, "rain");
+        // Expected: {"rain", "cat", "orange"}
+        // ("hat" is evicted)
+        assertEquals("rain", array[0]);
+        assertEquals("cat", array[1]);
+        assertEquals("orange", array[2]);
+    }
+
+    @Test
+    void testAddElementInPlaceAddAtLast() {
+        String[] array = {"cat", "orange", "hat"};
+        Toolbox.addElementInPlace(array, 2, "slate");
+        // Expected: {"cat", "orange", "slate"}
+        // ("hat" is evicted)
+        assertEquals("cat", array[0]);
+        assertEquals("orange", array[1]);
+        assertEquals("slate", array[2]);
+    }
+
+    @Test
+    void testAddElementInPlaceNullArray() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            Toolbox.addElementInPlace(null, 0, "something");
+        });
+    }
+
+    @Test
+    void testAddElementInPlaceNegativeIndex() {
+        String[] array = {"cat", "orange"};
+        assertThrows(IllegalArgumentException.class, () -> {
+            Toolbox.addElementInPlace(array, -1, "test");
+        });
+    }
+
+    @Test
+    void testAddElementInPlaceIndexOutOfBounds() {
+        String[] array = {"cat", "orange", "hat"};
+        assertThrows(IllegalArgumentException.class, () -> {
+            Toolbox.addElementInPlace(array, 3, "oops");
+        });
+    }
+
+    // ----------------------------------------------------------------------
+    // findTail(SingleNode head)
+    // ----------------------------------------------------------------------
+
+    @Test
+    void testFindTailMultipleElements() {
+        // SLL: 19 -> 42 -> 7
+        SingleNode head = new SingleNode(19, new SingleNode(42, new SingleNode(7)));
+        SingleNode tail = Toolbox.findTail(head);
+        assertNotNull(tail);
+        assertEquals(7, tail.data);
+        assertNull(tail.next);
+    }
+
+    @Test
+    void testFindTailSingleElement() {
+        SingleNode head = new SingleNode(500);
+        SingleNode tail = Toolbox.findTail(head);
+        assertEquals(head, tail);
+        assertEquals(500, tail.data);
+        assertNull(tail.next);
+    }
+
+    @Test
+    void testFindTailNullHead() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            Toolbox.findTail(null);
+        });
+    }
+
+    // ----------------------------------------------------------------------
+    // findHead(DoubleNode tail)
+    // ----------------------------------------------------------------------
+
+    @Test
+    void testFindHeadMultipleElements() {
+        // DLL: 27 <-> 11 <-> 83
+        DoubleNode n1 = new DoubleNode(27);
+        DoubleNode n2 = new DoubleNode(11);
+        DoubleNode n3 = new DoubleNode(83);
+        n1.next = n2; n2.prev = n1;
+        n2.next = n3; n3.prev = n2;
+
+        DoubleNode head = Toolbox.findHead(n3);
+        assertEquals(n1, head);
+        assertNull(head.prev);
+    }
+
+    @Test
+    void testFindHeadSingleElement() {
+        DoubleNode tail = new DoubleNode(999);
+        DoubleNode head = Toolbox.findHead(tail);
+        assertEquals(tail, head);
+        assertEquals(999, head.data);
+        assertNull(head.prev);
+        assertNull(head.next);
+    }
+
+    @Test
+    void testFindHeadNullTail() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            Toolbox.findHead(null);
+        });
+    }
+
+    // ----------------------------------------------------------------------
+    // countOccurrences(SingleNode head)
+    // ----------------------------------------------------------------------
+
+    @Test
+    void testCountOccurrencesMultiple() {
+        // SLL: 5 -> 12 -> 5 -> 3 -> 5 -> 12
+        SingleNode head = SingleNode.fromList(Arrays.asList(5, 12, 5, 3, 5, 12));
+        Map<Integer, Integer> counts = Toolbox.countOccurrences(head);
+        // Expect {5=3, 12=2, 3=1}
+        assertEquals(3, counts.size());
+        assertEquals(Integer.valueOf(3), counts.get(5));
+        assertEquals(Integer.valueOf(2), counts.get(12));
+        assertEquals(Integer.valueOf(1), counts.get(3));
+    }
+
+    @Test
+    void testCountOccurrencesSingleElement() {
+        SingleNode head = new SingleNode(66);
+        Map<Integer, Integer> counts = Toolbox.countOccurrences(head);
+        // Expect {66=1}
+        assertEquals(1, counts.size());
+        assertEquals(Integer.valueOf(1), counts.get(66));
+    }
+
+    @Test
+    void testCountOccurrencesNullHead() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            Toolbox.countOccurrences(null);
+        });
+    }
+
+    // ----------------------------------------------------------------------
+    // removeNode(DoubleNode node)
+    // ----------------------------------------------------------------------
+
+    @Test
+    void testRemoveNodeMiddle() {
+        // DLL: 8 <-> 99 <-> 13 <-> 23
+        DoubleNode n1 = new DoubleNode(8);
+        DoubleNode n2 = new DoubleNode(99);
+        DoubleNode n3 = new DoubleNode(13);
+        DoubleNode n4 = new DoubleNode(23);
+        n1.next = n2; n2.prev = n1;
+        n2.next = n3; n3.prev = n2;
+        n3.next = n4; n4.prev = n3;
+
+        Toolbox.removeNode(n2);
+        // Expected: 8 <-> 13 <-> 23
+        assertEquals(n1, n3.prev);
+        assertEquals(n3, n1.next);
+        assertEquals(n4, n3.next);
+        assertEquals(n3, n4.prev);
+    }
+
+    @Test
+    void testRemoveNodeFirst() {
+        // DLL: 8 <-> 99
+        DoubleNode n1 = new DoubleNode(8);
+        DoubleNode n2 = new DoubleNode(99);
+        n1.next = n2; n2.prev = n1;
+
+        Toolbox.removeNode(n1);
+        // Expected: just n2 left
+        assertNull(n2.prev);
+        assertNull(n2.next);
+    }
+
+    @Test
+    void testRemoveNodeLast() {
+        // DLL: 8 <-> 99
+        DoubleNode n1 = new DoubleNode(8);
+        DoubleNode n2 = new DoubleNode(99);
+        n1.next = n2; n2.prev = n1;
+
+        Toolbox.removeNode(n2);
+        // Expected: just n1 left
+        assertNull(n1.next);
+        assertNull(n1.prev);
+    }
+
+    @Test
+    void testRemoveNodeNull() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            Toolbox.removeNode(null);
+        });
+    }
+
+    // ----------------------------------------------------------------------
+    // removeOddValues(SingleNode head)
+    // ----------------------------------------------------------------------
+
+    @Test
+    void testRemoveOddValuesMixed() {
+        // SLL: 5 -> 2 -> 7 -> 10 -> 3
+        SingleNode head = SingleNode.fromList(Arrays.asList(5, 2, 7, 10, 3));
+        head = Toolbox.removeOddValues(head);
+        // Expected: 2 -> 10
+        assertEquals(Arrays.asList(2, 10), head.toList());
+    }
+
+    @Test
+    void testRemoveOddValuesAllOdd() {
+        // SLL: 5 -> 7 -> 9
+        SingleNode head = SingleNode.fromList(Arrays.asList(5, 7, 9));
+        head = Toolbox.removeOddValues(head);
+        // Expected: null
+        assertNull(head);
+    }
+
+    @Test
+    void testRemoveOddValuesAllEven() {
+        // SLL: 2 -> 14 -> 6
+        SingleNode head = SingleNode.fromList(Arrays.asList(2, 14, 6));
+        head = Toolbox.removeOddValues(head);
+        // Expected: 2 -> 14 -> 6
+        assertEquals(Arrays.asList(2, 14, 6), head.toList());
+    }
+
+    @Test
+    void testRemoveOddValuesSingleOdd() {
+        SingleNode head = new SingleNode(5);
+        head = Toolbox.removeOddValues(head);
+        // Expected: null
+        assertNull(head);
+    }
+
+    @Test
+    void testRemoveOddValuesSingleEven() {
+        SingleNode head = new SingleNode(8);
+        head = Toolbox.removeOddValues(head);
+        // Expected: single node with value=8
+        assertNotNull(head);
+        assertNull(head.next);
+        assertEquals(8, head.data);
+    }
+
+    @Test
+    void testRemoveOddValuesNullHead() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            Toolbox.removeOddValues(null);
+        });
+    }
+
+    // ----------------------------------------------------------------------
+    // findNthElement(SingleNode head, int n)
+    // ----------------------------------------------------------------------
+
+    @Test
+    void testFindNthElementValidIndex() {
+        // SLL: 7 -> 19 -> 3 -> 4
+        SingleNode head = SingleNode.fromList(Arrays.asList(7, 19, 3, 4));
+        SingleNode result = Toolbox.findNthElement(head, 1);
+        // Expected node with data=19
+        assertNotNull(result);
+        assertEquals(19, result.data);
+    }
+
+    @Test
+    void testFindNthElementLastIndex() {
+        // SLL: 7 -> 19 -> 3 -> 4
+        SingleNode head = SingleNode.fromList(Arrays.asList(7, 19, 3, 4));
+        SingleNode result = Toolbox.findNthElement(head, 3);
+        // Expected node with data=4
+        assertNotNull(result);
+        assertEquals(4, result.data);
+    }
+
+    @Test
+    void testFindNthElementOutOfBounds() {
+        SingleNode head = SingleNode.fromList(Arrays.asList(10, 5));
+        SingleNode result = Toolbox.findNthElement(head, 5);
+        // Expected: null
+        assertNull(result);
+    }
+
+    @Test
+    void testFindNthElementNullHead() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            Toolbox.findNthElement(null, 0);
+        });
+    }
+
+    @Test
+    void testFindNthElementNegativeIndex() {
+        SingleNode head = new SingleNode(1);
+        assertThrows(IllegalArgumentException.class, () -> {
+            Toolbox.findNthElement(head, -1);
+        });
+    }
+
+    // ----------------------------------------------------------------------
+    // insertNode(SingleNode node, SingleNode newNode)
+    // ----------------------------------------------------------------------
+
+    @Test
+    void testInsertNodeInMiddle() {
+        // SLL: 10 -> 5 -> 19
+        SingleNode head = SingleNode.fromList(Arrays.asList(10, 5, 19));
+        SingleNode node = head.next; // data=5
+        SingleNode newNode = new SingleNode(7);
+
+        Toolbox.insertNode(node, newNode);
+        // Expected: 10 -> 5 -> 7 -> 19
+        assertEquals(Arrays.asList(10, 5, 7, 19), head.toList());
+    }
+
+    @Test
+    void testInsertNodeAfterLast() {
+        // SLL: 10 -> 5
+        SingleNode head = SingleNode.fromList(Arrays.asList(10, 5));
+        SingleNode lastNode = head.next; // data=5
+        SingleNode newNode = new SingleNode(33);
+
+        Toolbox.insertNode(lastNode, newNode);
+        // Expected: 10 -> 5 -> 33
+        assertEquals(Arrays.asList(10, 5, 33), head.toList());
+    }
+
+    @Test
+    void testInsertNodeNullNode() {
+        SingleNode newNode = new SingleNode(5);
+        assertThrows(IllegalArgumentException.class, () -> {
+            Toolbox.insertNode(null, newNode);
+        });
+    }
+
+    @Test
+    void testInsertNodeNullNewNode() {
+        SingleNode head = new SingleNode(1);
+        assertThrows(IllegalArgumentException.class, () -> {
+            Toolbox.insertNode(head, null);
+        });
+    }
+
+    // ----------------------------------------------------------------------
+    // rotateQueueLeft(Queue<Integer> queue, int k)
+    // ----------------------------------------------------------------------
+
+    @Test
+    void testRotateQueueLeftValid() {
+        // queue: [3, 9, 1, 14, 8]
+        Queue<Integer> queue = new LinkedList<>(Arrays.asList(3, 9, 1, 14, 8));
+        Toolbox.rotateQueueLeft(queue, 2);
+        // Expected: [1, 14, 8, 3, 9]
+        assertEquals(Arrays.asList(1, 14, 8, 3, 9), new ArrayList<>(queue));
+    }
+
+    @Test
+    void testRotateQueueLeftZero() {
+        Queue<Integer> queue = new LinkedList<>(Arrays.asList(10, 25, 7));
+        Toolbox.rotateQueueLeft(queue, 0);
+        // Expected: [10, 25, 7] (unchanged)
+        assertEquals(Arrays.asList(10, 25, 7), new ArrayList<>(queue));
+    }
+
+    @Test
+    void testRotateQueueLeftLargeK() {
+        // queue: [3, 9, 1, 14, 8]
+        Queue<Integer> queue = new LinkedList<>(Arrays.asList(3, 9, 1, 14, 8));
+        // Rotating by 7 is the same as rotating by 2 if size=5
+        Toolbox.rotateQueueLeft(queue, 7);
+        // Expected: [1, 14, 8, 3, 9]
+        assertEquals(Arrays.asList(1, 14, 8, 3, 9), new ArrayList<>(queue));
+    }
+
+    @Test
+    void testRotateQueueLeftNullQueue() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            Toolbox.rotateQueueLeft(null, 2);
+        });
+    }
+
+    @Test
+    void testRotateQueueLeftNegativeK() {
+        Queue<Integer> queue = new ArrayDeque<>(Arrays.asList(1, 2, 3));
+        assertThrows(IllegalArgumentException.class, () -> {
+            Toolbox.rotateQueueLeft(queue, -1);
+        });
+    }
+
+    // ----------------------------------------------------------------------
+    // hasBalancedParentheses(String input)
+    // ----------------------------------------------------------------------
+
+    @Test
+    void testHasBalancedParenthesesBalanced() {
+        assertTrue(Toolbox.hasBalancedParentheses("(()())"));
+    }
+
+    @Test
+    void testHasBalancedParenthesesUnmatched() {
+        assertFalse(Toolbox.hasBalancedParentheses("(()"));
+        assertFalse(Toolbox.hasBalancedParentheses("())"));
+    }
+
+    @Test
+    void testHasBalancedParenthesesMismatch() {
+        assertFalse(Toolbox.hasBalancedParentheses(")("));
+    }
+
+    @Test
+    void testHasBalancedParenthesesEmptyString() {
+        assertTrue(Toolbox.hasBalancedParentheses(""));
+    }
+
+    @Test
+    void testHasBalancedParenthesesNullInput() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            Toolbox.hasBalancedParentheses(null);
+        });
     }
 }
