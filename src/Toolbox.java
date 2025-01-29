@@ -88,20 +88,6 @@ public class Toolbox {
   }
 
   /**
-   * Removes all odd values from a singly linked list.
-   *
-   * @param head the head node of the singly linked list
-   * @return the head of the modified list
-   * @throws IllegalArgumentException if the head is null
-   */
-  public static SingleNode removeOddValues(SingleNode head) {
-    if (head == null) {
-      throw new IllegalArgumentException("Head cannot be null.");
-    }
-    return null; 
-  }
-
-  /**
    * Finds the nth element in a singly linked list.
    *
    * @param head the head node of the singly linked list
