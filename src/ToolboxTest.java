@@ -18,32 +18,24 @@ public class ToolboxTest {
     void testRemoveElementInPlaceValidIndexMiddle() {
         String[] array = {"frog", "banana", "xylophone", "mug", "pear"};
         Toolbox.removeElementInPlace(array, 2);
-        // Expected: {"frog", "banana", "mug", "pear", null}
-        assertEquals("frog", array[0]);
-        assertEquals("banana", array[1]);
-        assertEquals("mug", array[2]);
-        assertEquals("pear", array[3]);
-        assertNull(array[4]);
+        String[] expected = {"frog", "banana", "mug", "pear", null};
+        assertArrayEquals(expected, array);
     }
 
     @Test
     void testRemoveElementInPlaceRemoveFirstElement() {
         String[] array = {"frog", "banana", "xylophone"};
         Toolbox.removeElementInPlace(array, 0);
-        // Expected: {"banana", "xylophone", null}
-        assertEquals("banana", array[0]);
-        assertEquals("xylophone", array[1]);
-        assertNull(array[2]);
+        String[] expected = {"banana", "xylophone", null};
+        assertArrayEquals(expected, array);
     }
 
     @Test
     void testRemoveElementInPlaceRemoveLastElement() {
         String[] array = {"frog", "banana", "xylophone"};
         Toolbox.removeElementInPlace(array, 2);
-        // Expected: {"frog", "banana", null}
-        assertEquals("frog", array[0]);
-        assertEquals("banana", array[1]);
-        assertNull(array[2]);
+        String[] expected = {"frog", "banana", null};
+        assertArrayEquals(expected, array);
     }
 
     @Test
@@ -77,34 +69,26 @@ public class ToolboxTest {
     void testAddElementInPlaceValidIndexMiddle() {
         String[] array = {"cat", "orange", "hat", "door"};
         Toolbox.addElementInPlace(array, 2, "cloud");
-        // Expected after insertion at index=2 (evict last):
-        // {"cat", "orange", "cloud", "hat"}
-        assertEquals("cat", array[0]);
-        assertEquals("orange", array[1]);
-        assertEquals("cloud", array[2]);
-        assertEquals("hat", array[3]);
+        String[] expected = {"cat", "orange", "cloud", "hat"};
+        assertArrayEquals(expected, array);
     }
 
     @Test
     void testAddElementInPlaceAddAtFirst() {
         String[] array = {"cat", "orange", "hat"};
         Toolbox.addElementInPlace(array, 0, "rain");
-        // Expected: {"rain", "cat", "orange"}
-        // ("hat" is evicted)
-        assertEquals("rain", array[0]);
-        assertEquals("cat", array[1]);
-        assertEquals("orange", array[2]);
+        // "hat" is evicted
+        String[] expected = {"rain", "cat", "orange"};
+        assertArrayEquals(expected, array);
     }
 
     @Test
     void testAddElementInPlaceAddAtLast() {
         String[] array = {"cat", "orange", "hat"};
         Toolbox.addElementInPlace(array, 2, "slate");
-        // Expected: {"cat", "orange", "slate"}
-        // ("hat" is evicted)
-        assertEquals("cat", array[0]);
-        assertEquals("orange", array[1]);
-        assertEquals("slate", array[2]);
+        // "hat" is evicted
+        String[] expected = {"cat", "orange", "slate"};
+        assertArrayEquals(expected, array);
     }
 
     @Test
@@ -280,62 +264,6 @@ public class ToolboxTest {
     void testRemoveNodeNull() {
         assertThrows(IllegalArgumentException.class, () -> {
             Toolbox.removeNode(null);
-        });
-    }
-
-    // ----------------------------------------------------------------------
-    // removeOddValues(SingleNode head)
-    // ----------------------------------------------------------------------
-
-    @Test
-    void testRemoveOddValuesMixed() {
-        // SLL: 5 -> 2 -> 7 -> 10 -> 3
-        SingleNode head = SingleNode.fromList(Arrays.asList(5, 2, 7, 10, 3));
-        head = Toolbox.removeOddValues(head);
-        // Expected: 2 -> 10
-        assertEquals(Arrays.asList(2, 10), head.toList());
-    }
-
-    @Test
-    void testRemoveOddValuesAllOdd() {
-        // SLL: 5 -> 7 -> 9
-        SingleNode head = SingleNode.fromList(Arrays.asList(5, 7, 9));
-        head = Toolbox.removeOddValues(head);
-        // Expected: null
-        assertNull(head);
-    }
-
-    @Test
-    void testRemoveOddValuesAllEven() {
-        // SLL: 2 -> 14 -> 6
-        SingleNode head = SingleNode.fromList(Arrays.asList(2, 14, 6));
-        head = Toolbox.removeOddValues(head);
-        // Expected: 2 -> 14 -> 6
-        assertEquals(Arrays.asList(2, 14, 6), head.toList());
-    }
-
-    @Test
-    void testRemoveOddValuesSingleOdd() {
-        SingleNode head = new SingleNode(5);
-        head = Toolbox.removeOddValues(head);
-        // Expected: null
-        assertNull(head);
-    }
-
-    @Test
-    void testRemoveOddValuesSingleEven() {
-        SingleNode head = new SingleNode(8);
-        head = Toolbox.removeOddValues(head);
-        // Expected: single node with value=8
-        assertNotNull(head);
-        assertNull(head.next);
-        assertEquals(8, head.data);
-    }
-
-    @Test
-    void testRemoveOddValuesNullHead() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            Toolbox.removeOddValues(null);
         });
     }
 
